@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title><%= title %></title>
+</head>
+<body>
+
+	<h3>Welcome, ? (SUBJECTS)</h3>
+
+	<table border="1" cellpadding="5">
+		<thead>
+			<th>No</th>
+			<th>ID</th>
+			<th>Subject Name</th>
+		</thead>
+		<% let j = 1 
+			for(let i = 0; i < data.length; i++){ %>
+			<tbody>
+				<td><%= j %></td>
+				<td><%= data[i].id %></td>
+				<td><%= data[i].subject_name %></td>
+			</tbody>
+		<% j++ } %>
+	</table>
+
+	<br>
+
+	<a href="/"> << back to home </a>
+	
+</body>
+</html>

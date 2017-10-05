@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title><%= title %></title>
+</head>
+<body>
+
+	<h3>Welcome, ? (STUDENTS)</h3>
+
+	<table border="1" cellpadding="5">
+		<thead>
+			<th>No</th>
+			<th>ID</th>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Email</th>
+			<th>Full Name</th>
+			<th>Action</th>
+		</thead>
+		<% let j = 1 
+			for(let i = 0; i < data.length; i++){ %>
+			<tbody>
+				<td><%= j %></td>
+				<td><%= data[i].id %></td>
+				<td><%= data[i].first_name %></td>
+				<td><%= data[i].last_name %></td>
+				<td><%= data[i].email %></td>
+				<td><%= data[i].getFullName() %></td>
+				<td>
+					<a href="/students/edit/<%= data[i].id %>">Edit</a>
+					<a href="/students/delete/<%= data[i].id %>">Delete</a>
+				</td>
+			</tbody>
+		<% j++ } %>
+	</table>
+
+	<br>
+
+	<a href="/students/add" style="margin-bottom: 20px; display: inline-block">Add Student</a>
+
+	<br>
+
+	<a href="/"> << back to home </a>
+	
+</body>
+</html>

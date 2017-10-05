@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title><%= title %></title>
+</head>
+<body>
+
+	<h3>Add Student</h3>
+
+	<% if(dataErr){ %>
+		<p style="font-size:13px; color:red"><%= dataErr.errors[0].message %></p>
+	<% } %>
+	
+	<form action="/students/add" method="post">
+		<table>
+			<tr>
+				<td>First Name: </td>
+			</tr>
+			<tr>
+				<td>
+					<input type="text" name="fn">
+				</td>
+			</tr>
+			<tr>
+				<td>Last Name: </td>
+			</tr>
+			<tr>
+				<td>
+					<input type="text" name="ln">
+				</td>
+			</tr>
+			<tr>
+				<td>Email: </td>
+			</tr>
+			<tr>
+				<td>
+					<input type="text" name="email">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="submit" value="Submit">
+				</td>
+			</tr>
+		</table>
+	</form>
+
+	<br>
+
+	<a href="/students">  << back to home </a>
+	
+</body>
+</html>
