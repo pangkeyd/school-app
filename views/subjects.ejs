@@ -1,28 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title><%= title %></title>
-</head>
+<% include partial/head %>
 <body>
 
 	<h3>Welcome, ? (SUBJECTS)</h3>
+
+	<% include partial/menu %>
 
 	<table border="1" cellpadding="5">
 		<thead>
 			<th>No</th>
 			<th>ID</th>
 			<th>Subject Name</th>
+			<th>Teachers</th>
+			<th>Students</th>
+			<th>Action</th>
 		</thead>
 		<% let j = 1 
-			for(let i = 0; i < data.length; i++){ %>
+			for(let i = 0; i < dataSub.length; i++){ %>
 			<tbody>
 				<td><%= j %></td>
-				<td><%= data[i].id %></td>
-				<td><%= data[i].subject_name %></td>
+				<td><%= dataSub[i].id %></td>
+				<td><%= dataSub[i].subject_name %></td>
+				<% if(dataSub[i].Teachers.length > 1){ %>
+					<td>
+						<% let l = 1
+							for(let k = 0; k < dataSub[i].Teachers.length; k++){ %>
+							<%= l %>. <%= dataSub[i].Teachers[k].first_name %> <br>
+						<% l++ } %>
+					</td>
+				<% }else if(dataSub[i].Teachers[0]){ %>
+					<td><%= dataSub[i].Teachers[0].first_name %></td>
+				<% }else{ %>
+					<td>
+						<span style="color:red">Unassigned</span>
+					</td>
+				<% } %>
+				<td>
+					<a href="/subjects/enrolledstudents/<%= dataSub[i].id %>">Enrolled Students</a>
+				</td>
+				<td>
+					<a href="/subjects/edit/<%= dataSub[i].id %>">Edit</a>
+					<a href="/subjects/delete/<%= dataSub[i].id %>" onclick="return confirm(`Are you sure want to Delete <%= dataSub[i].subject_name %>`)">Delete</a>
+				</td>
 			</tbody>
 		<% j++ } %>
 	</table>
+
+	<form action="/subjects" method="post" style="margin-top:20px">
+		<table>
+			<tr>
+				<td>
+					<span style="color:red">*</span> <span style="color:red; font-size:13px; font-style: italic">Required</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span style="color:red">*</span> Subject Name: 
+				</td>
+				<td>
+					<input type="text" name="sn">
+				</td>
+				<% if(dataErr){ %>
+					<% if(dataErr.errors[0].message === 'Please fill this field!' || dataErr.errors[0].message === 'Subject Name already used!'){ %>
+						<td>
+							<span style="color:red; font-size:13px; font-style: italic"><%= dataErr.errors[0].message %></span>
+						</td>
+					<% } %>
+				<% } %>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<input type="submit" value="Save">
+				</td>
+			</tr>
+		</table>
+	</form>
 
 	<br>
 

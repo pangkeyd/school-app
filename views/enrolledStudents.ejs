@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title><%= title %></title>
+</head>
+<body>
+
+	<h2>Enrolled Student</h2>
+
+	<% if(data.length === 0){ %>
+		<p style="color:red; font-family: arial">Belum Ada Siswa di Pelajaran ini</p>
+	<% }else{ %>
+
+		<h3><%= data[0].Subject.subject_name %></h3>
+
+		<table border="1" cellpadding="5">
+			<thead>
+				<th>No</th>
+				<th>ID</th>
+				<th>Students Name</th>
+				<th>Score</th>
+				<th>Desc</th>
+				<th>Action</th>
+			</thead>
+			<% let j = 1 
+				for(let i = 0; i < data.length; i++){ %>
+				<tbody>
+					<td><%= j %></td>
+					<td><%= data[i].id %></td>
+
+					<td><%= data[i].Student.first_name %></td>
+					<td>
+						<% if(data[i].score){ %>
+							<%= data[i].score %>
+						<% }else{ %>
+							<a href="/subjects/<%= data[i].Subject.id %>/<%= data[i].Student.id %>/give-score">Give Score</a>
+						<% } %>
+					</td>
+					<% if(data[i].score){ %>
+						<td><%= data[i].getDesc() %></td>
+					<% }else{ %>
+						<td> - </td>
+					<% } %>
+					<td>
+						<a href="/subjects/enrolledstudents/delete/<%= data[i].subjectID %>/<%= data[i].studentID %>">Delete</a>
+					</td>
+				</tbody>
+			<% j++ } %>
+		</table>
+
+	<% } %>
+
+	<br>
+
+	<a href="/subjects"> << back to subjects </a>
+	
+</body>
+</html>

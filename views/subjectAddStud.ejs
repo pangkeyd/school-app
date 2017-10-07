@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title><%= title %></title>
+</head>
+<body>
+
+	<h3>Add Subject to Student</h3>
+
+	<% if(dataErr){ %>
+		<p style="color:red; font-size: 13px"><%= dataErr %></p>
+	<% } %>
+
+	<form action="/students/subject/<%= dataStu.id %>" method="post">
+		<table>
+			<tr>
+				<td>First Name: </td>
+				<td>
+					<input type="text" value="<%= dataStu.first_name %>" readonly>
+				</td>
+			</tr>
+			<tr>
+				<td>Last Name: </td>
+				<td>
+					<input type="text" value="<%= dataStu.last_name %>" readonly>
+				</td>
+			</tr>
+			<tr>
+				<td>Email: </td>
+				<td>
+					<input type="text" value="<%= dataStu.email %>" readonly>
+				</td>
+			</tr>
+			<tr>
+				<td>Choose Subject: </td>
+				<td>
+					<select name="subjectName">
+						<option value=""> - choose - </option>
+						<% for(let i = 0; i < dataSub.length; i++){ %>
+							<option value="<%= dataSub[i].id %>"><%= dataSub[i].subject_name %></option>
+						<% } %>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<input type="submit" value="Save">
+				</td>
+			</tr>
+		</table>
+	</form>
+
+	<br>
+
+	<a href="/students"> << back to students </a>
+	
+</body>
+</html>

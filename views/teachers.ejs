@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title><%= title %></title>
-</head>
+<% include partial/head %>
 <body>
 
 	<h3>Welcome, ? (TEACHERS)</h3>
+
+	<% include partial/menu %>
 
 	<table border="1" cellpadding="5">
 		<thead>
@@ -14,19 +11,101 @@
 			<th>ID</th>
 			<th>First Name</th>
 			<th>Last Name</th>
+			<th>Full Name</th>
 			<th>Email</th>
+			<th>Subject</th>
+			<th>Action</th>
 		</thead>
 		<% let j = 1 
-			for(let i = 0; i < data.length; i++){ %>
+			for(let i = 0; i < dataTea.length; i++){ %>
 			<tbody>
 				<td><%= j %></td>
-				<td><%= data[i].id %></td>
-				<td><%= data[i].first_name %></td>
-				<td><%= data[i].last_name %></td>
-				<td><%= data[i].email %></td>
+				<td><%= dataTea[i].id %></td>
+				<td><%= dataTea[i].first_name %></td>
+				<td><%= dataTea[i].last_name %></td>
+				<td><%= dataTea[i].fullName() %></td>
+				<td><%= dataTea[i].email %></td>
+				<% if(dataTea[i].Subject){ %>
+					<td><%= dataTea[i].Subject.subject_name %></td>
+				<% }else{ %>
+					<td>
+						<span style="color:red">Unassigned</span>
+					</td>
+				<% } %>
+				<td>
+					<a href="/teachers/edit/<%= dataTea[i].id %>">Edit</a>
+					<a href="/teachers/delete/<%= dataTea[i].id %>" onclick="return confirm(`Are you sure want to Delete <%= dataTea[i].first_name %>`)">Delete</a>
+				</td>
 			</tbody>
 		<% j++ } %>
 	</table>
+
+	<form action="/teachers" method="post" style="margin-top:20px">
+		<table>
+			<tr>
+				<td>
+					<span style="color:red">*</span> <span style="font-style: italic; color:red; font-size: 13px">Required</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span style="color:red">*</span> First Name: 
+				</td>
+				<td>
+					<input type="text" name="fn">
+				</td>
+				<% if(dataErr){ %>
+					<% if(dataErr.errors[0].message === 'Please input your First Name!'){ %>
+						<td>
+							<span style="color:red; font-size: 13px; font-style: italic ">
+								<%= dataErr.errors[0].message %>
+							</span>
+						</td>
+					<% } %>
+				<% } %>
+			</tr>
+			<tr>
+				<td>
+					<span style="color:red">*</span> Last Name: 
+				</td>
+				<td>
+					<input type="text" name="ln">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span style="color:red">*</span> Email: 
+				</td>
+				<td>
+					<input type="text" name="email">
+				</td>
+				<% if(dataErr){ %>
+					<% if(dataErr.errors[0].message === 'Email already used!' || dataErr.errors[0].message === 'Please input your valid Email Address!' || dataErr.errors[0].message === 'Please input your Email Address!'){  %>
+						<td>
+							<span style="color:red; font-size: 13px; font-style: italic"><%= dataErr.errors[0].message %></span>
+						</td>
+					<% } %>
+				<% } %>
+			</tr>
+			<tr>
+				<td>Subject Name: </td>
+				<td>
+					<select name="subjectName">
+						<option value=""> - choose - </option>
+						<% for(let i = 0; i < dataSub.length; i++){ %>
+							<option value="<%= dataSub[i].id %>"><%= dataSub[i].subject_name %></option>
+						<% } %>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<input type="submit" value="Save">
+				</td>
+			</tr>
+		</table>
+	</form>
 
 	<br>
 

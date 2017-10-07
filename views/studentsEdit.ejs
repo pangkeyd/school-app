@@ -8,6 +8,10 @@
 
 	<h3>Add Student</h3>
 
+	<% if(dataErr){ %>
+		<p style="font-size:13px; color:red"><%= dataErr.errors[0].message %></p>
+	<% } %>
+
 	<form action="/students/edit/<%= data.id %>" method="post">
 		<table>
 			<tr>

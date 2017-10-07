@@ -1,14 +1,24 @@
 'use strict';
+
+const fullName = require('../helpers/students/fullname')
+
 module.exports = function(sequelize, DataTypes) {
   var Student = sequelize.define('Student', {
-    first_name: DataTypes.STRING,
+    first_name: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Please input your First Name!'
+        }
+      }
+    },
     last_name: DataTypes.STRING,
     email: {
     	type: DataTypes.STRING,
     	unique: {
     		args: true,
-    		msg: 'Email already used!',
-    		fields: [sequelize.fn('lower', sequelize.col('email'))]
+    		msg: 'Email already used!'
     	},
     	validate: {
     		isEmail: {
@@ -20,12 +30,12 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   Student.associate = function(model){
-    
+    Student.hasMany(model.StudentSubject, {foreignKey: 'studentID'})
+    Student.belongsToMany(model.Subject, {through: 'StudentSubject', foreignKey: 'studentID'})
   }
 
   Student.prototype.getFullName = function(){
-  	let fN = this.first_name + ' ' + this.last_name
-  	return fN
+    return fullName(this.first_name, this.last_name)
   }
 
   return Student;

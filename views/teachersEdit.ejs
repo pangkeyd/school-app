@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title><%= title %></title>
+</head>
+<body>
+
+	<h3>Welcome, ? (TEACHERS)</h3>
+
+	<% if(dataErr){ %>
+		<p style="font-size:13px; color:red"><%= dataErr.errors[0].message %></p>
+	<% } %>
+
+	<form action="/teachers/edit/<%= dataTea.id %>" method="post" style="margin-top:20px">
+		<table>
+			<tr>
+				<td>First Name: </td>
+				<td>
+					<input type="text" name="fn" value="<%= dataTea.first_name %>">
+				</td>
+			</tr>
+			<tr>
+				<td>Last Name: </td>
+				<td>
+					<input type="text" name="ln" value="<%= dataTea.last_name %>">
+				</td>
+			</tr>
+			<tr>
+				<td>Email: </td>
+				<td>
+					<input type="text" name="email" value="<%= dataTea.email %>">
+				</td>
+			</tr>
+			<tr>
+				<td>Subject Name: </td>
+				<td>
+					<select name="subjectName">
+						<option value=""> - choose - </option>
+						<% for(let i = 0; i < dataSub.length; i++){ %>
+							<% let selected = 'selected' 
+								if(dataTea.subjectID === dataSub[i].id){ %>
+									<option <%= selected %> value="<%= dataSub[i].id %>"><%= dataSub[i].subject_name %></option>
+								<% }else{ %>
+									<option value="<%= dataSub[i].id %>"><%= dataSub[i].subject_name %></option>
+								<% } %>
+						<% } %>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<input type="submit" value="Save">
+				</td>
+			</tr>
+		</table>
+	</form>
+
+	<br>
+
+	<a href="/teachers"> << back to teachers </a>
+	
+</body>
+</html>

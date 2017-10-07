@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title><%= title %></title>
-</head>
+<% include partial/head %>
 <body>
 
 	<h3>Welcome, ? (STUDENTS)</h3>
+
+	<% include partial/menu %>
 
 	<table border="1" cellpadding="5">
 		<thead>
@@ -14,8 +11,9 @@
 			<th>ID</th>
 			<th>First Name</th>
 			<th>Last Name</th>
-			<th>Email</th>
 			<th>Full Name</th>
+			<th>Email</th>
+			<th>Options</th>
 			<th>Action</th>
 		</thead>
 		<% let j = 1 
@@ -25,11 +23,14 @@
 				<td><%= data[i].id %></td>
 				<td><%= data[i].first_name %></td>
 				<td><%= data[i].last_name %></td>
-				<td><%= data[i].email %></td>
 				<td><%= data[i].getFullName() %></td>
+				<td><%= data[i].email %></td>
+				<td>
+					<a href="/students/subject/<%= data[i].id %>">Add Subject</a>
+				</td>
 				<td>
 					<a href="/students/edit/<%= data[i].id %>">Edit</a>
-					<a href="/students/delete/<%= data[i].id %>">Delete</a>
+					<a href="/students/delete/<%= data[i].id %>" onclick="return confirm(`Are you sure want to delete <%= data[i].getFullName() %>`)">Delete</a>
 				</td>
 			</tbody>
 		<% j++ } %>
