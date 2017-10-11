@@ -2,11 +2,23 @@ const express = require('express')
 const router = express.Router()
 const Models = require('../models')
 
-router.get('/', function(req, res){
+function cekRole(req, res, next){
+	if(req.session && req.session.hasOwnProperty('username') && req.session.role === 'teacher' || req.session.role === 'academic' || req.session.role === 'headmaster'){
+		console.log(req.session)
+		next()
+	}else{
+		res.redirect('/')
+	}
+}
+
+router.get('/', cekRole, function(req, res){
 	Models.Student.findAll()
 	.then(function(students){
+		let sess = req.session
 		res.render('students', {
 			data: students,
+			dataMenu: `${sess.role}`,
+			dataErr: null,
 			title: 'Students Page'
 		})
 	})
@@ -106,6 +118,7 @@ router.get('/subject/:id', function(req, res){
 			res.render('subjectAddStud', {
 				dataStu: student[0],
 				dataSub: subjects,
+				dataErr: null,
 				title: 'Add Subject Student Page'
 			})
 		})
@@ -123,26 +136,27 @@ router.post('/subject/:id', function(req, res){
 		res.redirect('/students')
 	})
 	.catch(function(err){
-		let error = null
-		if(err.errors = 'subjectID must be unique'){
-			error = 'This Student already take this Subject!'
-			Models.Student.findAll({
-				where: {
-					id: req.params.id
-				}
-			})
-			.then(function(student){
-				Models.Subject.findAll()
-				.then(function(subjects){
-					res.render('subjectAddStud', {
-						dataStu: student[0],
-						dataSub: subjects,
-						dataErr: error,
-						title: 'Add Subject Student Page'
-					})
-				})
-			})
-		}
+		// let error = null
+		// if(err.errors = 'subjectID must be unique'){
+		// 	error = 'This Student already take this Subject!'
+		// 	Models.Student.findAll({
+		// 		where: {
+		// 			id: req.params.id
+		// 		}
+		// 	})
+		// 	.then(function(student){
+		// 		Models.Subject.findAll()
+		// 		.then(function(subjects){
+		// 			res.render('subjectAddStud', {
+		// 				dataStu: student[0],
+		// 				dataSub: subjects,
+		// 				dataErr: error,
+		// 				title: 'Add Subject Student Page'
+		// 			})
+		// 		})
+		// 	})
+		// }
+		res.send(err)
 	})
 })
 

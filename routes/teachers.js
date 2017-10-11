@@ -2,7 +2,15 @@ const express = require('express')
 const router = express.Router()
 const Models = require('../models')
 
-router.get('/', function(req, res){
+function cekRole(req, res, next){
+	if(req.session && req.session.hasOwnProperty('username') && req.session.role === 'headmaster'){
+		next()
+	}else{
+		res.redirect('/')
+	}
+}
+
+router.get('/', cekRole, function(req, res){
 	Models.Teacher.findAll({
 		include: [{
 			model: Models.Subject

@@ -1,3 +1,10 @@
-<a href="/teachers">Teachers</a>
-<a href="/subjects">Subjects</a>
-<a href="/students" style="margin-bottom: 20px; display: inline-block;">Students</a>
+<% if(dataMenu === 'headmaster'){ %>
+  <a href="/teachers">Teachers</a>
+  <a href="/subjects">Subjects</a>
+  <a href="/students" style="margin-bottom: 20px; display: inline-block;">Students</a>
+<% }else if(dataMenu === 'academic'){ %>
+  <a href="/subjects">Subjects</a>
+  <a href="/students" style="margin-bottom: 20px; display: inline-block;">Students</a>
+<% }else{ %>
+  <a href="/students" style="margin-bottom: 20px; display: inline-block;">Students</a>
+<% } %>

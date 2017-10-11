@@ -6,11 +6,7 @@ module.exports = function(sequelize, DataTypes) {
   var StudentSubject = sequelize.define('StudentSubject', {
     studentID: DataTypes.INTEGER,
     subjectID: {
-      type: DataTypes.INTEGER,
-      unique: {
-        args: true,
-        msg: 'This Student already take this Subject!'
-      }
+      type: DataTypes.INTEGER
     },
     score: DataTypes.INTEGER
   });

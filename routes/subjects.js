@@ -2,16 +2,26 @@ const express = require('express')
 const router = express.Router()
 const Models = require('../models')
 
-router.get('/', function(req, res){
+function cekRole(req, res, next){
+	if(req.session && req.session.hasOwnProperty('username') && req.session.role === 'headmaster' || req.session.role === 'academic'){
+		next()
+	}else{
+		res.redirect('/')
+	}
+}
+
+router.get('/', cekRole, function(req, res){
 	Models.Subject.findAll({
 		include: [{
 			model: Models.Teacher
 		}]
 	})
 	.then(function(subjects){
+		let sess = req.session
 		res.render('subjects', {
 			dataSub: subjects,
 			dataErr: null,
+			dataMenu: `${sess.role}`,
 			title: 'Subjects Page'
 		})
 	})
@@ -31,9 +41,11 @@ router.post('/', function(req, res){
 			}]
 		})
 		.then(function(subjects){
+			let sess = req.session
 			res.render('subjects', {
 				dataSub: subjects,
 				dataErr: err,
+				dataMenu: `${sess.role}`,
 				title: 'Subjects Page'
 			})
 		})
